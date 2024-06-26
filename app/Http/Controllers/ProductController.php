@@ -14,7 +14,6 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        // dd($products);
         return view('pages.shop', compact('products'), ['title' => 'Shop Pages']);
     }
 
@@ -22,7 +21,13 @@ class ProductController extends Controller
     {
         // $products = Category::findOrFail($category)->products;
         $products = $category->products;
-        return view('pages.shop', compact('products'), ['title' => 'Shop Pages']);
+        if($category->name){
+
+            dd($category->name);
+        }else{
+            dd('kosong');
+        }
+        return view('pages.shop', compact('products'), ['title' => 'Shop Pages','category' => $category->name]);
     }
 
     public function getCategories()

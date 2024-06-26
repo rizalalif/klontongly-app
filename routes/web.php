@@ -26,7 +26,7 @@ Route::get('/register', [UserController::class, 'register'])->middleware('guest'
 Route::post('/register', [UserController::class, 'create']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
-Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware('isAdmin:1');
+// Route::get('/admin', [AdminController::class, 'index'])->name('admin')->middleware('isAdmin:1');
 
 // Route::get('/shop', );
 Route::get('/checkout', function () {

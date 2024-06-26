@@ -20,6 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     public $timestamps = false;
+    public $with = 'order';
     protected $fillable = [
         'username',
         'email',

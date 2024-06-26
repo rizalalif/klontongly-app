@@ -52,7 +52,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             if (Auth::user()->isAdmin == 1) {
                 // dd('admin');
-                return redirect()->route('admin')->with('title','Dashboard');
+                return redirect('/')->with('title','Dashboard');
             } elseif (Auth::user()->isAdmin == 0) {
                 // dd('user');
 

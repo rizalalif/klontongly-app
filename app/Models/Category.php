@@ -12,7 +12,7 @@ class Category extends Model
 
     public $timestamps = false;
 
-    protected $with = 'products';
+    // protected $with = 'products';
 
     protected $fillable = [
         'name',
