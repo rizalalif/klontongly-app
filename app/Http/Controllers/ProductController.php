@@ -11,9 +11,10 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Product $product)
     {
-        $products = Product::all();
+        // $products = Product::all();
+        $products = $product->all();
         return view('pages.shop', compact('products'), ['title' => 'Shop Pages']);
     }
 
@@ -21,13 +22,9 @@ class ProductController extends Controller
     {
         // $products = Category::findOrFail($category)->products;
         $products = $category->products;
-        if($category->name){
-
-            dd($category->name);
-        }else{
-            dd('kosong');
-        }
-        return view('pages.shop', compact('products'), ['title' => 'Shop Pages','category' => $category->name]);
+        
+       
+        return view('pages.shop', compact('products'), ['title' => 'Shop Pages', 'category' => $category->name]);
     }
 
     public function getCategories()

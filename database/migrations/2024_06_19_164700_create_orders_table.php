@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->uuid('trans_code')->unique();
             $table->foreignId('user_id')->constrained(table: 'users', indexName: 'orders_users_id')->onUpdate('cascade')->onDelete('cascade');
-            $table->float('total_amount');
+            $table->integer('total_amount');
             $table->enum('status', ['complete','pending','cancelled']);
             $table->timestamps();
         });

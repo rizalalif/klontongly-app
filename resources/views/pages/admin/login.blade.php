@@ -5,9 +5,10 @@
         <div class="bg-white max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
             <h2 class="text-2xl uppercase font-medium mb-1">Login</h2>
             <p class="text-gray-600 mb-6 text-sm">
-                Welcome back customer
+                Welcome back Admin
             </p>
-                <form action="{{route('act-login')}}" method="post" class="max-w-sm mx-auto">
+
+            <form action="{{route('admin.auth')}}" method="post" class="max-w-sm mx-auto">
                     @csrf
                     <label for="website-admin" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                     <div class="flex mb-5">

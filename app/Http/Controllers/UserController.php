@@ -10,11 +10,17 @@ class UserController extends Controller
 {
     public function index()
     {
-        return view('pages.login', ['title' => 'Login Page']);
+        if (request()->path() == 'admin') {
+            # code...
+            return view('pages.admin.login', ['title' => 'Login Page']);
+        } elseif (request()->path() == 'login') {
+            # code...
+            return view('pages.login', ['title' => 'Login Page']);
+        }
     }
     public function register()
     {
-        return view('pages.register', ['title' => 'Login Page']);
+        return view('pages.register', ['title' => 'Register Page']);
     }
     public function create(Request $request)
     {
@@ -50,16 +56,13 @@ class UserController extends Controller
         // $credentials = ['email' => $validated['email'], 'password' => $validated['password']];
         // dd($credentials);
         if (Auth::attempt($credentials)) {
-            if (Auth::user()->isAdmin == 1) {
-                // dd('admin');
-                return redirect('/')->with('title','Dashboard');
-            } elseif (Auth::user()->isAdmin == 0) {
-                // dd('user');
+            // if (Auth::user()->isAdmin == 1) {
+            //     return redirect('/admin')->with('title', 'Dashboard');
+            // } else
 
-                return redirect()->intended('/');
-            }
             // dd(Auth::user()->isAdmin);
             $request->session()->regenerate();
+            return redirect()->intended('/');
         }
 
         return redirect('/login')->with('login-failed', 'Login Failed');
@@ -75,6 +78,27 @@ class UserController extends Controller
         // dd($validated);
     }
 
+    public function loginAdmin(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::guard('admin')->attempt($credentials)) {
+
+            if (!Auth::guard('admin')->user()->isAdmin) {
+                Auth::guard('admin')->logout();
+                return redirect('/blank');
+            }
+            $request->session()->regenerate();
+
+            return redirect()->route('admin.dashboard')->with('success', 'Halo Admin!');
+        }
+
+        return redirect('/login')->with('login-failed', 'Login Failed');
+    }
+
     public function toDashboard()
     {
         return view('pages.dashboard');
@@ -83,6 +107,16 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+    public function logoutAdmin(Request $request)
+    {
+        Auth::guard('admin')->logout();
 
         $request->session()->invalidate();
 
